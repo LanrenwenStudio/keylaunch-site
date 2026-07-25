@@ -14,20 +14,7 @@ document.querySelectorAll("[data-i18n-html]").forEach(element => {
   baseHTML[element.dataset.i18nHtml] ??= element.innerHTML;
 });
 
-const storefronts = {
-  "zh-Hans": "https://apps.apple.com/cn/app/%E9%94%AE%E5%90%AF/id6759540480?mt=12",
-  "zh-Hant": browserLocale.startsWith("zh-hk")
-    ? "https://apps.apple.com/hk/app/%E9%8D%B5%E5%95%9F/id6759540480?mt=12"
-    : "https://apps.apple.com/tw/app/%E9%8D%B5%E5%95%9F/id6759540480?mt=12",
-  en: browserLocale.startsWith("en-gb")
-    ? "https://apps.apple.com/gb/app/keylaunch/id6759540480?mt=12"
-    : "https://apps.apple.com/us/app/keylaunch/id6759540480?mt=12",
-  ja: "https://apps.apple.com/jp/app/%E9%94%AE%E5%90%AF/id6759540480?mt=12",
-  ko: "https://apps.apple.com/kr/app/%ED%82%A4%EB%9F%B0%EC%B9%98/id6759540480?mt=12",
-  fr: "https://apps.apple.com/fr/app/keylaunch/id6759540480?mt=12",
-  de: "https://apps.apple.com/de/app/keylaunch-hotkeys/id6759540480?mt=12",
-  es: "https://apps.apple.com/es/app/keylaunch/id6759540480?mt=12"
-};
+const appStoreURL = "macappstore://itunes.apple.com/app/id6759540480?mt=12&l=us";
 
 function detectedLanguage(locale) {
   if (/^zh-(tw|hk|mo|hant)/.test(locale)) return "zh-Hant";
@@ -76,7 +63,7 @@ function applyLanguage(language, shouldPersist = false) {
   document.title = strings?.["meta.title"] ?? "KeyLaunch — 一键启动常用 App";
   descriptionMeta.content = strings?.["meta.description"] ?? "KeyLaunch 是一款轻量级 macOS 键盘启动器，让常用 App 一键即达。";
   document.querySelectorAll("[data-app-store-link]").forEach(link => {
-    link.href = storefronts[resolvedLanguage];
+    link.href = appStoreURL;
   });
 
   if (shouldPersist) persistLanguage(resolvedLanguage);
@@ -87,6 +74,30 @@ languageSelect.addEventListener("change", event => {
 });
 
 applyLanguage(savedLanguage() || detectedLanguage(browserLocale));
+
+document.querySelectorAll("[data-copy]").forEach(button => {
+  button.addEventListener("click", async () => {
+    const textToCopy = button.dataset.copy;
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      const textSpan = button.querySelector('[data-i18n="install.copy"]') || button.querySelector("span");
+      if (textSpan) {
+        const originalText = textSpan.textContent;
+        const currentLang = document.documentElement.lang || "zh-Hans";
+        const copiedText = window.siteTranslations?.[currentLang]?.["install.copied"] || "已复制！";
+        textSpan.textContent = copiedText;
+        button.classList.add("copied");
+        setTimeout(() => {
+          textSpan.textContent = originalText;
+          button.classList.remove("copied");
+        }, 2000);
+      }
+    } catch (err) {
+      console.error("Failed to copy command:", err);
+    }
+  });
+});
+
 
 const productFrame = document.querySelector(".product-shot-frame");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
