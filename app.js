@@ -80,7 +80,7 @@ document.querySelectorAll("[data-copy]").forEach(button => {
     const textToCopy = button.dataset.copy;
     try {
       await navigator.clipboard.writeText(textToCopy);
-      const textSpan = button.querySelector('[data-i18n="install.copy"]') || button.querySelector("span");
+      const textSpan = button.querySelector('[data-i18n="install.copy"]') || button.querySelector(".distribution-copy-label") || button.querySelector("span");
       if (textSpan) {
         const originalText = textSpan.textContent;
         const currentLang = document.documentElement.lang || "zh-Hans";

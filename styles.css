@@ -17,6 +17,17 @@
 .language-picker select:focus-visible{border-color:var(--violet);box-shadow:0 0 0 3px rgba(114,87,232,.16)}
 html[lang="de"] .hero h1{font-size:clamp(43px,5vw,72px)}
 @media(max-width:600px){.language-picker select{min-width:92px;max-width:112px}}
+
+.distribution-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:9px;max-width:620px}
+.distribution-button{min-width:0;min-height:62px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);border-radius:14px;padding:10px 12px;color:var(--ink);font-size:13px;font-weight:650;line-height:1.05;cursor:pointer;transition:.2s transform,.2s box-shadow,.2s background}
+.distribution-button:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(38,43,66,.12)}
+.distribution-button svg{width:21px;height:21px;flex:0 0 auto}
+.distribution-button span{display:flex;flex-direction:column;align-items:flex-start}
+.distribution-button.primary-button{background:var(--ink);color:#fff;border-color:var(--ink)}
+.distribution-button.primary-button svg{fill:#fff;stroke:none}
+.homebrew-button{background:var(--white)}
+.direct-button{background:var(--lavender);border-color:#ddd5ff;color:#5942c4}
+@media(max-width:600px){.distribution-actions{grid-template-columns:1fr}}
 .hero h1 span{color:var(--blue)}
 .keyboard-stage:before{background:radial-gradient(circle,rgba(22,132,255,.16),transparent 67%)}
 .hero-homebrew{color:#9699a5;font-size:13px;margin-top:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
