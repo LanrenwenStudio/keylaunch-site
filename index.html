@@ -47,18 +47,35 @@
         <p class="eyebrow" data-i18n="hero.eyebrow">原生 macOS 键盘启动器</p>
         <h1 data-i18n-html="hero.title">把常用 App，<br><span>放到键盘上。</span></h1>
         <p class="hero-lede" data-i18n="hero.lede">在一张清晰的键盘上安排你的 App。按下熟悉的按键，立即启动、切换或隐藏，不打断当前思路。</p>
-        <div class="hero-actions distribution-actions">
-          <a class="primary-button distribution-button" data-app-store-link href="macappstore://itunes.apple.com/app/id6759540480?mt=12&amp;l=us">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.7 12.9c0-3.2 2.6-4.8 2.7-4.9a5.8 5.8 0 0 0-4.5-2.4c-1.9-.2-3.8 1.1-4.7 1.1-.9 0-2.4-1.1-4-1-2 .1-3.9 1.2-5 3-2.1 3.6-.5 9 1.5 12 1 1.5 2.2 3.1 3.8 3 1.5-.1 2.1-1 4-1 1.8 0 2.4 1 4 1 1.7 0 2.8-1.5 3.8-3a13 13 0 0 0 1.7-3.5 5.2 5.2 0 0 1-3.3-4.3ZM15.7 3.6A5.2 5.2 0 0 0 17 0a5.3 5.3 0 0 0-3.4 1.8 4.9 4.9 0 0 0-1.3 3.5c1.3.1 2.6-.6 3.4-1.7Z"/></svg>
-            <span><small data-i18n="hero.available">下载自</small><strong>Mac App Store</strong></span>
-          </a>
-          <button type="button" class="distribution-button homebrew-button" data-copy="brew install --cask LanrenwenStudio/apps/key-launch" aria-label="Copy Homebrew install command">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v4H6zM4 7h16v14H4zM8 11h8M8 15h8M8 19h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span class="distribution-copy-label">Homebrew</span>
+        <div class="hero-actions distribution-stack">
+          <button type="button" class="stack-button direct-button" id="downloadDmgBtn">
+            <svg class="stack-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            <div class="stack-text">
+              <small data-i18n="hero.directLabel">官网直链</small>
+              <strong data-i18n="hero.direct">下载安装包 (v1.3.8)</strong>
+            </div>
+            <span class="stack-tag" data-i18n="hero.directTag">即时更新</span>
           </button>
-          <a class="distribution-button direct-button" href="https://github.com/LanrenwenStudio/homebrew-apps/releases/download/key-launch-v1.3.8/key-launch-1.3.8.dmg">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span data-i18n="hero.direct">立即下载</span>
+
+          <button type="button" class="stack-button homebrew-button" data-copy="brew install --cask LanrenwenStudio/apps/key-launch" aria-label="Copy Homebrew install command">
+            <svg class="stack-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17l6-6-6-6M12 19h8"/></svg>
+            <div class="stack-text">
+              <small data-i18n="hero.brewLabel">终端命令</small>
+              <strong>brew install key-launch</strong>
+            </div>
+            <span class="stack-copy-pill">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+              <span class="copy-text" data-i18n="install.copy">复制</span>
+            </span>
+          </button>
+
+          <a class="stack-button store-button" data-app-store-link href="macappstore://itunes.apple.com/app/id6759540480?mt=12&amp;l=us">
+            <svg class="stack-icon apple-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.7 12.9c0-3.2 2.6-4.8 2.7-4.9a5.8 5.8 0 0 0-4.5-2.4c-1.9-.2-3.8 1.1-4.7 1.1-.9 0-2.4-1.1-4-1-2 .1-3.9 1.2-5 3-2.1 3.6-.5 9 1.5 12 1 1.5 2.2 3.1 3.8 3 1.5-.1 2.1-1 4-1 1.8 0 2.4 1 4 1 1.7 0 2.8-1.5 3.8-3a13 13 0 0 0 1.7-3.5 5.2 5.2 0 0 1-3.3-4.3ZM15.7 3.6A5.2 5.2 0 0 0 17 0a5.3 5.3 0 0 0-3.4 1.8 4.9 4.9 0 0 0-1.3 3.5c1.3.1 2.6-.6 3.4-1.7Z"/></svg>
+            <div class="stack-text">
+              <small data-i18n="hero.available">Mac App Store</small>
+              <strong data-i18n="hero.storeSub">前往商店安装</strong>
+            </div>
+            <span class="store-delay-tag" data-i18n="hero.storeDelayTag">更新有延迟</span>
           </a>
         </div>
         <p class="requirements" data-i18n="hero.requirements">支持 macOS 13 及以上版本 · 8 种语言 · 数据只保存在本机</p>
@@ -86,6 +103,7 @@
         <p class="eyebrow" data-i18n="features.eyebrow">主界面，一眼看懂</p>
         <h2 data-i18n-html="features.title">把键盘变成<br>你的 App 地图。</h2>
       </div>
+
       <div class="feature-grid">
         <article class="feature feature-wide reveal">
           <div class="feature-copy"><span class="feature-icon">⌘</span><h3 data-i18n="features.bind.title">修饰键，让布局更自由</h3><p data-i18n="features.bind.body">在主界面直接筛选 Option、Command、Control 和 Shift。为同一个按键设置多组组合，按照你的肌肉记忆组织 App。</p></div>
@@ -169,15 +187,18 @@
       <img src="assets/keylaunch-icon.webp" alt="KeyLaunch" width="88" height="88" loading="lazy" decoding="async">
       <h2 data-i18n-html="cta.title">少找一次 App，<br>多留一段专注。</h2>
       <p data-i18n="cta.body">把最常用的工具放到最熟悉的位置：你的键盘。</p>
-      <a class="primary-button" data-app-store-link href="macappstore://itunes.apple.com/app/id6759540480?mt=12&amp;l=us"><span><small data-i18n="hero.available">下载自</small><strong>Mac App Store</strong></span></a>
+      <button type="button" class="primary-button direct-button" id="finalCtaDownloadBtn"><span><small data-i18n="hero.directLabel">官网直链</small><strong data-i18n="hero.direct">下载安装包 (v1.3.8)</strong></span></button>
     </section>
   </main>
 
   <footer class="footer shell">
-    <span>© 2026 Lanrenwen Studio <span class="footer-version">v1.3.7</span></span>
+    <span>© 2026 Lanrenwen Studio <span class="footer-version">v1.3.8</span></span>
     <div><a href="privacy.html" data-i18n="footer.privacy">隐私政策</a><a href="#install" data-i18n="footer.support">技术支持</a></div>
   </footer>
-  <script src="translations.js"></script>
-  <script src="app.js"></script>
+
+  <div class="toast" id="globalToast" aria-live="polite"><span></span></div>
+
+  <script src="translations.js?v=1.3.8"></script>
+  <script src="app.js?v=1.3.8"></script>
 </body>
 </html>

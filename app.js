@@ -57,11 +57,15 @@ function applyLanguage(language, shouldPersist = false) {
   });
 
   const usesChineseScreenshot = resolvedLanguage === "zh-Hans" || resolvedLanguage === "zh-Hant";
-  productShot.src = usesChineseScreenshot ? "assets/keylaunch-window-zh.webp" : "assets/keylaunch-window-en.webp";
-  productShot.alt = strings?.["shot.alt"] ?? "键启应用界面，键盘上设置了多个 macOS 系统 App 快捷键";
+  if (productShot) {
+    productShot.src = usesChineseScreenshot ? "assets/keylaunch-window-zh.webp" : "assets/keylaunch-window-en.webp";
+    productShot.alt = strings?.["shot.alt"] ?? "键启应用界面，键盘上设置了多个 macOS 系统 App 快捷键";
+  }
 
   document.title = strings?.["meta.title"] ?? "KeyLaunch — 一键启动常用 App";
-  descriptionMeta.content = strings?.["meta.description"] ?? "KeyLaunch 是一款轻量级 macOS 键盘启动器，让常用 App 一键即达。";
+  if (descriptionMeta) {
+    descriptionMeta.content = strings?.["meta.description"] ?? "KeyLaunch 是一款轻量级 macOS 键盘启动器，让常用 App 一键即达。";
+  }
   document.querySelectorAll("[data-app-store-link]").forEach(link => {
     link.href = appStoreURL;
   });
@@ -75,27 +79,61 @@ languageSelect.addEventListener("change", event => {
 
 applyLanguage(savedLanguage() || detectedLanguage(browserLocale));
 
-document.querySelectorAll("[data-copy]").forEach(button => {
-  button.addEventListener("click", async () => {
-    const textToCopy = button.dataset.copy;
+let toastTimerRef = null;
+function showToast(text) {
+  let toastEl = document.querySelector(".toast");
+  if (!toastEl) {
+    toastEl = document.createElement("div");
+    toastEl.className = "toast";
+    toastEl.innerHTML = `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span></span>`;
+    document.body.appendChild(toastEl);
+  }
+  const spanEl = toastEl.querySelector("span");
+  if (spanEl) spanEl.textContent = text;
+  toastEl.classList.add("show");
+
+  if (toastTimerRef) clearTimeout(toastTimerRef);
+  toastTimerRef = setTimeout(() => {
+    toastEl.classList.remove("show");
+  }, 3200);
+}
+
+document.addEventListener("click", async (e) => {
+  const copyBtn = e.target.closest("[data-copy]");
+  if (copyBtn) {
+    const textToCopy = copyBtn.dataset.copy;
     try {
       await navigator.clipboard.writeText(textToCopy);
-      const textSpan = button.querySelector('[data-i18n="install.copy"]') || button.querySelector(".distribution-copy-label") || button.querySelector("span");
+      const textSpan = copyBtn.querySelector('[data-i18n="install.copy"]') || copyBtn.querySelector(".distribution-copy-label") || copyBtn.querySelector(".copy-text") || copyBtn.querySelector("span");
+      const currentLang = document.documentElement.lang || "zh-Hans";
+      const copiedText = window.siteTranslations?.[currentLang]?.["install.copied"] || "已复制！";
+      
       if (textSpan) {
         const originalText = textSpan.textContent;
-        const currentLang = document.documentElement.lang || "zh-Hans";
-        const copiedText = window.siteTranslations?.[currentLang]?.["install.copied"] || "已复制！";
         textSpan.textContent = copiedText;
-        button.classList.add("copied");
+        copyBtn.classList.add("copied");
         setTimeout(() => {
           textSpan.textContent = originalText;
-          button.classList.remove("copied");
+          copyBtn.classList.remove("copied");
         }, 2000);
       }
+
+      const prefix = window.siteTranslations?.[currentLang]?.["toast.prefix"] || "已复制：";
+      showToast(`${prefix}${textToCopy}`);
     } catch (err) {
       console.error("Failed to copy command:", err);
     }
-  });
+    return;
+  }
+
+  const directBtn = e.target.closest('.direct-button, #downloadDmgBtn, #finalCtaDownloadBtn, a[href*=".dmg"]');
+  if (directBtn) {
+    if (e.cancelable) e.preventDefault();
+    const currentLang = document.documentElement.lang || "zh-Hans";
+    const toastMsg = window.siteTranslations?.[currentLang]?.["toast.dmgDownloaded"] || "已开始下载 key-launch-1.3.8.dmg，请查看浏览器下载记录或“下载”文件夹。";
+    showToast(toastMsg);
+    return;
+  }
 });
 
 
