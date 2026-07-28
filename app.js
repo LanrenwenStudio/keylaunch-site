@@ -130,7 +130,7 @@ document.addEventListener("click", async (e) => {
   if (directBtn) {
     if (e.cancelable) e.preventDefault();
     const currentLang = document.documentElement.lang || "zh-Hans";
-    const toastMsg = window.siteTranslations?.[currentLang]?.["toast.dmgDownloaded"] || "已开始下载 key-launch-1.3.8.dmg，请查看浏览器下载记录或“下载”文件夹。";
+    const toastMsg = window.siteTranslations?.[currentLang]?.["toast.dmgDownloaded"] || "已开始下载 key-launch-1.3.9.dmg，请查看浏览器下载记录或“下载”文件夹。";
     showToast(toastMsg);
     return;
   }
