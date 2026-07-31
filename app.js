@@ -128,10 +128,13 @@ document.addEventListener("click", async (e) => {
 
   const directBtn = e.target.closest('.direct-button, #downloadDmgBtn, #finalCtaDownloadBtn, a[href*=".dmg"]');
   if (directBtn) {
-    if (e.cancelable) e.preventDefault();
     const currentLang = document.documentElement.lang || "zh-Hans";
     const toastMsg = window.siteTranslations?.[currentLang]?.["toast.dmgDownloaded"] || "已开始下载 key-launch-1.3.12.dmg，请查看浏览器下载记录或“下载”文件夹。";
     showToast(toastMsg);
+    const downloadUrl = directBtn.getAttribute("href") || "https://github.com/LanrenwenStudio/homebrew-apps/releases/download/key-launch-v1.3.12/key-launch-1.3.12.dmg";
+    setTimeout(() => {
+      window.location.href = downloadUrl;
+    }, 100);
     return;
   }
 });
